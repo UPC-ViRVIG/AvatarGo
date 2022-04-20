@@ -1,8 +1,6 @@
-/[Ss]teamVR/
-/[Ss]teamVR_Input/
-/[Ss]teamVR_Resources/
-/[Ss]treamingAssets/
-/[Tt]extMesh Pro/
+/SteamVR/
+/SteamVR_Input/
+/SteamVR_Resources/
+/StreamingAssets/
+/TextMesh Pro/
 /XR/
-
-*.meta
