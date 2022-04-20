@@ -51,3 +51,5 @@ Link to the paper: TBD
 There are errors because some dependencies are not installed yet. Press continue and open the project, then follow the installation instructions to add all dependencies.
 
 ## License
+This work is licensed under CC BY-NC-SA 4.0.
+AvatarGo is freely available for free non-commercial use, and may be redistributed under these conditions.  Please, see the [license](https://github.com/UPC-ViRVIG/AvatarGo/LICENSE) for further details.
