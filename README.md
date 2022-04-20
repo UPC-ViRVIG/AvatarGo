@@ -12,7 +12,18 @@ Demo video: https://youtu.be/DWU4p-a-uXo
 ## Installation
 - Download the last version from the [Release page](https://github.com/UPC-ViRVIG/AvatarGo/releases)
 - Open the package or go to the Unity menu ‘Assets/Import Package/Custom Package’ and select the package
-- TODO Packages
+- From the Packages Window 'Window/Package Manager':
+  - Enable preview packages:
+    - Settings/gear button and select Advanced Project Settings
+    - Check 'Enable Preview Packages'
+- Install the following packages from the Packages Window:
+  - Netcode for GameObjects: 
+    - Click the + button
+    - Add package from git URL
+    - Type: com.unity.netcode.gameobjects and click Add
+  - TextMeshPro (from Unity Registry) (if not already installed)
+- Install SteamVR from the Asset Store: https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647
+(When installing SteamVR, Unity should automatically set up the project for its use in VR and install OpenVR)
 - Delete all MainCameras in the scene (or change their MainCamera tag)
 
 ## How to Use
