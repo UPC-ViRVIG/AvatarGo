@@ -19,3 +19,10 @@
 
 ## Hardware
 When using SteamVRAvatarGo prefab, the user will need to place the controllers and HTC VIVE trackers as in the following picture:
+<p align="center">
+  <img 
+    width="960"
+    height="216"
+    src="https://github.com/UPC-ViRVIG/AvatarGo/blob/main/.github/media/hardware_setup.png"
+  >
+</p>
