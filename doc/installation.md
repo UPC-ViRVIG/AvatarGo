@@ -1,5 +1,5 @@
 ## Installation
-There are two ways to install AvatarGo: creating a new project by cloning this repository or using an existing project and adding AvatarGo as a package.
+There are two ways to install AvatarGo: using an existing project and adding AvatarGo as a package or creating a new project by cloning this repository.
 ### First option: Package
 - Download the last version from the [Release page](https://github.com/UPC-ViRVIG/AvatarGo/releases)
 - Open the package or go to the Unity menu ‘Assets/Import Package/Custom Package’ and select the package
