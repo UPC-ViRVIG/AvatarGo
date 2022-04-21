@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: 4f44ea1b4410f354184c041ce4706ec0
+timeCreated: 1551971239
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: body
+    100002: button
+    100004: led
+    100006: lgrip
+    100008: rgrip
+    100010: sys_button
+    100012: trackpad
+    100014: trigger
+    100016: //RootNode
+    400000: body
+    400002: button
+    400004: led
+    400006: lgrip
+    400008: rgrip
+    400010: sys_button
+    400012: trackpad
+    400014: trigger
+    400016: //RootNode
+    2300000: body
+    2300002: button
+    2300004: led
+    2300006: lgrip
+    2300008: rgrip
+    2300010: sys_button
+    2300012: trackpad
+    2300014: trigger
+    3300000: body
+    3300002: button
+    3300004: led
+    3300006: lgrip
+    3300008: rgrip
+    3300010: sys_button
+    3300012: trackpad
+    3300014: trigger
+    4300000: body
+    4300002: button
+    4300004: led
+    4300006: lgrip
+    4300008: rgrip
+    4300010: sys_button
+    4300012: trackpad
+    4300014: trigger
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bodyMat
+    second: {fileID: 2100000, guid: a5c3eb6fb4d69d04ca491b1af8fc74e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: buttonMat
+    second: {fileID: 2100000, guid: aa7a5e2428ce789468fe25b1d1d3c510, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ledMat
+    second: {fileID: 2100000, guid: 5da5d520f3f5dce498636d0b8b2f4eca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lgripMat
+    second: {fileID: 2100000, guid: 1a19698a1d1203544a25559eaa814b62, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rgripMat
+    second: {fileID: 2100000, guid: 25e26116aa86ba74eb779f54b7dd0d6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: sys_buttonMat
+    second: {fileID: 2100000, guid: 1e858a9d449218148b0f750ffbd35565, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trackpadMat
+    second: {fileID: 2100000, guid: 20ebc302cc77fd84383865cc5e56aac6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: triggerMat
+    second: {fileID: 2100000, guid: c4ab80ccc3fc59149bf35e11b6228597, type: 2}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
