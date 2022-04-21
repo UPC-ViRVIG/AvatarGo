@@ -18,8 +18,10 @@ Demo video: https://youtu.be/DWU4p-a-uXo
 4. [License](#license)
 
 ## Installation
-- Download the last version from the [Release page](https://github.com/UPC-ViRVIG/AvatarGo/releases) or clone this repository
-- Skip this step if the repository was cloned: Open the package or go to the Unity menu ‘Assets/Import Package/Custom Package’ and select the package
+There are two ways to install AvatarGo: creating a new project by cloning this repository or using an existing project and adding AvatarGo as a package.
+### First option: Package
+- Download the last version from the [Release page](https://github.com/UPC-ViRVIG/AvatarGo/releases)
+- Open the package or go to the Unity menu ‘Assets/Import Package/Custom Package’ and select the package
 - At this point some errors will appear until all dependencies are installed:
 - From the Packages Window 'Window/Package Manager':
   - Enable preview packages:
@@ -33,6 +35,14 @@ Demo video: https://youtu.be/DWU4p-a-uXo
 - Install SteamVR from the Asset Store: https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647
 (When installing SteamVR, Unity should automatically set up the project for its use in VR and install OpenVR)
 - Delete all MainCameras in the scene (or change their MainCamera tag)
+### Second option: Clone
+- Clone this repository with git
+- Open the project with Unity (it will warn you that there are errors in the project, press continue and ignore)
+- When the project is cloned the Package Manager dependencies should be handled automatically by Unity, if that is not the case, please follow the steps for installing dependencies in the First option
+- Install SteamVR from the Asset Store: https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647
+(When installing SteamVR, Unity should automatically set up the project for its use in VR and install OpenVR)
+- Delete all MainCameras in the scene (or change their MainCamera tag)
+
 
 ## How to Use
 - Drop into the scene one of the following prefabs:
