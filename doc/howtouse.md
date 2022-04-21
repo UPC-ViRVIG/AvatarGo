@@ -14,3 +14,8 @@
     * ClosedHandAttachedControllers: Show controllers attached to the hands with Finger IK
     * OpenHandHiddenControllers: No controllers
   - OnCalibrationFinished: Scripts can suscribe to this event, it will be called once the calibration is completed and the user is inside the avatar
+- Add a ground (for example a plane) with position y=0 and with a collider so the avatar can be correctly placed on top
+- Press Play!
+
+## Hardware
+When using SteamVRAvatarGo prefab, the user will need to place the controllers and HTC VIVE trackers as in the following picture:
