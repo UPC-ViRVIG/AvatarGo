@@ -1,4 +1,5 @@
 ## How to Use
+- Take a look at the demo scenes: AvatarGo/Scenes/
 - Drop into the scene one of the following prefabs:
   - SimulatorAvatarGo (use this to test the avatars without HMD)
   - SteamVRAvatarGo
