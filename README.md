@@ -26,15 +26,20 @@ All documentation can be found in [doc/howtouse.md](doc/howtouse.md)
 ## Citation
 Please consider citing this paper in your publications if it helps your research:
 ```
-@article{ponton2022avatargo,
-  author = {Jose Luis Ponton and Eva Monclús and Nuria Pelechano},
-  title = {AvatarGo: Plug and Play self-avatars for VR},
-  booktitle = {Eurographics 2022 Short Papers},
-  year = {2022}
+@inproceedings {ponton2022avatargo,
+booktitle = {Eurographics 2022 - Short Papers},
+editor = {Pelechano, Nuria and Vanderhaeghe, David},
+title = {{AvatarGo: Plug and Play self-avatars for VR}},
+author = {Ponton, Jose Luis and Monclús, Eva and Pelechano, Nuria},
+year = {2022},
+publisher = {The Eurographics Association},
+ISSN = {1017-4656},
+ISBN = {978-3-03868-169-4},
+DOI = {10.2312/egs.20221037}
 }
 ```
 
-Link to the paper: TBD
+Link to the paper: https://diglib.eg.org/handle/10.2312/egs20221037
 
 ## Troubleshooting FAQ
 **Q: The project cannot be opened because Unity warns that there are errors to be solved:**
@@ -45,7 +50,7 @@ Some dependencies might not be installed yet. Press continue and open the projec
 
 Probably the TMP Essential Resources are not imported. Go to: 'Window/TextMeshPro/Import TMP Essential Resources' and import all files.
 
-**
+
 
 ## License
 This work is licensed under CC BY-NC-SA 4.0.
