@@ -10,6 +10,8 @@
 
 Demo video: https://youtu.be/DWU4p-a-uXo
 
+Link to the paper: https://diglib.eg.org/handle/10.2312/egs20221037
+
 ## Contents
 1. [Installation](#installation)
 2. [How to Use](#how-to-use)
