@@ -116,7 +116,8 @@ public class SteamVRDriver : AvatarDriver
                 cameraHeadModel.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
             }
         }
-        GameObject controllerLeftModel = ControllerLeft.transform.Find("Model").gameObject;
+        GameObject controllerLeftModel = ControllerLeft.transform.Find("Controller").gameObject;
+        if (controllerLeftModel == null) controllerLeftModel = ControllerLeft.transform.Find("Model").gameObject;
         if (controllerLeftModel)
         {
             if (controllerLeftModel.GetComponentInChildren<MeshRenderer>())
@@ -124,7 +125,8 @@ public class SteamVRDriver : AvatarDriver
                 controllerLeftModel.gameObject.GetComponentInChildren<MeshRenderer>().material.color = Color.green;
             }
         }
-        GameObject controllerRightModel = ControllerRight.transform.Find("Model").gameObject;
+        GameObject controllerRightModel = ControllerRight.transform.Find("Controller").gameObject;
+        if (controllerRightModel == null) controllerRightModel = ControllerRight.transform.Find("Model").gameObject;
         if (controllerRightModel)
         {
             if (controllerRightModel.GetComponentInChildren<MeshRenderer>())

@@ -247,9 +247,11 @@ public class AvatarGo : MonoBehaviour
 
         Transform headModelTransform = head.transform.Find("Model");
         head_model = headModelTransform == null ? null : headModelTransform.gameObject;
-        Transform handLeftTransform = handLeft.transform.Find("Model");
+        Transform handLeftTransform = handLeft.transform.Find("Controller");
+        if (handLeftTransform == null) handLeftTransform = handLeft.transform.Find("Model");
         handLeft_model = handLeftTransform == null ? null : handLeftTransform.gameObject;
-        Transform handRightTransform = handRight.transform.Find("Model");
+        Transform handRightTransform = handRight.transform.Find("Controller");
+        if (handRightTransform == null) handRightTransform = handRight.transform.Find("Model");
         handRight_model = handRightTransform == null ? null : handRightTransform.gameObject;
         Transform pelvisTransform = pelvis.transform.Find("Model");
         pelvis_model = pelvisTransform == null ? null : pelvisTransform.gameObject;
