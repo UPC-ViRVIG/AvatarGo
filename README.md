@@ -52,6 +52,10 @@ Some dependencies might not be installed yet. Press continue and open the projec
 
 Probably the TMP Essential Resources are not imported. Go to: 'Window/TextMeshPro/Import TMP Essential Resources' and import all files.
 
+**Q: I can only see the mirror with one eye:**
+
+Go to 'Edit/Project Settings/OpenVR' and change 'Stereo Rendering Mode' from 'Single Pass Instanced' to 'Multi Pass'.
+
 
 
 ## License

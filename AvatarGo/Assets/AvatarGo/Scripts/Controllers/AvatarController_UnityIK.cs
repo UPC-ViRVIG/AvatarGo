@@ -16,7 +16,7 @@ public class AvatarController_UnityIK : AvatarController
 
     private bool ControllersAttached = false;
     private bool ClampControllers = false;
-
+    private bool ArmsStretchFlag = false;
 
     private int Flag = 0;
 
@@ -31,6 +31,8 @@ public class AvatarController_UnityIK : AvatarController
 
     private Quaternion LastLeftHandWorldRotation;
     private Quaternion LastRightHandWorldRotation;
+
+    private ArmsStretch ArmsStretch;
 
     // Fingers
     private BendFingersType FingersType;
@@ -213,6 +215,12 @@ public class AvatarController_UnityIK : AvatarController
             Animator.GetBoneTransform(HumanBodyBones.LeftHand).localRotation = Animator.GetBoneTransform(HumanBodyBones.LeftHand).localRotation * Quaternion.Euler(AvatarProperties.LeftHandRotation);
         }
 
+        // Arm Stretch
+        if (ArmsStretchFlag)
+        {
+            ArmsStretch.DoUpdate();
+        }
+
         // Fingers
         if (FingersType == BendFingersType.Automatic)
         {
@@ -249,6 +257,16 @@ public class AvatarController_UnityIK : AvatarController
             if (AvatarVR.handLeft_model != null) AvatarVR.handLeft_model.transform.localPosition = Vector3.zero;
             if (AvatarVR.handRight_model != null) AvatarVR.handRight_model.transform.localPosition = Vector3.zero;
         }
+    }
+
+    public void SetArmStretch(ArmsStretch armsStretch)
+    {
+        ArmsStretch = armsStretch;
+    }
+
+    public void SetArmStretch(bool e)
+    {
+        ArmsStretchFlag = e;
     }
 
     public void SetControllersAttached(bool e)

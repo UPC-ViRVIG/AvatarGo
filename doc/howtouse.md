@@ -19,6 +19,8 @@
     * ClosedHandFreeControllers: Show controllers in their real position but with Finger IK
     * ClosedHandAttachedControllers: Show controllers attached to the hands with Finger IK
     * OpenHandHiddenControllers: No controllers
+	* CloseHandStretchArm: Show controllers attached to the hands with Finger IK and stretch the arm to reach the end effector
+	* OpenHandStretchArm: No controllers and stretch the arm to reach the end effector
   - **OnCalibrationFinished**: Scripts can subscribe to this event; it will be called once the calibration is completed and the user is inside the avatar
 - Add a ground (e.g., a plane) with position y=0 and with a collider so the avatar can be correctly placed on top
 - Press Play!

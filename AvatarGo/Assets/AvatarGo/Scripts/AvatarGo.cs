@@ -35,7 +35,9 @@ public class AvatarGo : MonoBehaviour
         OpenHandFreeControllers, // No Finger IK... controllers are free to move
         ClosedHandFreeControllers, // Finger IK... controllers are free to move
         ClosedHandAttachedControllers, // Finger IK... controllers remain attached to the hand
-        OpenHandHiddenControllers // No Finger IK... controllers are not displayed
+        OpenHandHiddenControllers, // No Finger IK... controllers are not displayed
+        CloseHandStretchArm, // Finger IK... arm is stretch to reach the controller
+        OpenHandStretchArm // No Finger IK... controllers are not displayer... arm is stretch to reach the controller
     }
     public ControllersStyle controllersStyle = ControllersStyle.ClosedHandAttachedControllers;
 
@@ -63,6 +65,7 @@ public class AvatarGo : MonoBehaviour
                 controllerUnity.SetControllersAttached(false);
                 controllerUnity.SetOpenFingers();
                 controllerUnity.SetClampControllers(false);
+                controllerUnity.SetArmStretch(false);
             }
         }
         else if (controllersStyle == ControllersStyle.ClosedHandFreeControllers)
@@ -74,8 +77,9 @@ public class AvatarGo : MonoBehaviour
             {
                 AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
                 controllerUnity.SetControllersAttached(true);
-                controllerUnity.SetAutomaticFingers(handRight.GetComponentInChildren<ControllerFingers>(), handLeft.GetComponentInChildren<ControllerFingers>());
+                controllerUnity.SetAutomaticFingers(handRight.GetComponentInChildren<ControllerFingers>(true), handLeft.GetComponentInChildren<ControllerFingers>(true));
                 controllerUnity.SetClampControllers(false);
+                controllerUnity.SetArmStretch(false);
             }
         }
         else if (controllersStyle == ControllersStyle.ClosedHandAttachedControllers)
@@ -87,8 +91,9 @@ public class AvatarGo : MonoBehaviour
             {
                 AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
                 controllerUnity.SetControllersAttached(true);
-                controllerUnity.SetAutomaticFingers(handRight.GetComponentInChildren<ControllerFingers>(), handLeft.GetComponentInChildren<ControllerFingers>());
+                controllerUnity.SetAutomaticFingers(handRight.GetComponentInChildren<ControllerFingers>(true), handLeft.GetComponentInChildren<ControllerFingers>(true));
                 controllerUnity.SetClampControllers(true);
+                controllerUnity.SetArmStretch(false);
             }
         }
         else if (controllersStyle == ControllersStyle.OpenHandHiddenControllers)
@@ -102,6 +107,35 @@ public class AvatarGo : MonoBehaviour
                 controllerUnity.SetControllersAttached(false);
                 controllerUnity.SetUniformFingers(0.1f);
                 controllerUnity.SetClampControllers(false);
+                controllerUnity.SetArmStretch(false);
+            }
+        }
+        else if (controllersStyle == ControllersStyle.CloseHandStretchArm)
+        {
+            active = singleInput == null || singleInput.stage != PipelineUtils.Stage.DONE;
+            activeControllers = true;
+
+            if (controller != null && controller is AvatarController_UnityIK)
+            {
+                AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
+                controllerUnity.SetControllersAttached(true);
+                controllerUnity.SetAutomaticFingers(handRight.GetComponentInChildren<ControllerFingers>(true), handLeft.GetComponentInChildren<ControllerFingers>(true));
+                controllerUnity.SetClampControllers(true);
+                controllerUnity.SetArmStretch(true);
+            }
+        }
+        else if (controllersStyle == ControllersStyle.OpenHandStretchArm)
+        {
+            active = false;
+            activeControllers = false;
+
+            if (controller != null && controller is AvatarController_UnityIK)
+            {
+                AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
+                controllerUnity.SetControllersAttached(false);
+                controllerUnity.SetUniformFingers(0.1f);
+                controllerUnity.SetClampControllers(false);
+                controllerUnity.SetArmStretch(true);
             }
         }
 
@@ -130,7 +164,6 @@ public class AvatarGo : MonoBehaviour
     private GameObject inputSystem;
     [HideInInspector] public SingleInput singleInput;
     [HideInInspector] public ContinuousInput continuousInput;
-    private AvatarProperties avatarProperties;
 
     // Scene elements
     private GameObject displayMirrorObj;
@@ -298,7 +331,13 @@ public class AvatarGo : MonoBehaviour
         controller.driver = driver;
         controller.body = body;
         (controller as AvatarController_UnityIK).Desc = humanDescription;
-        avatarProperties = avatar.GetComponent<AvatarProperties>();
+
+        // Arm Stretch
+        //AvatarProperties avatarProperties = avatar.GetComponent<AvatarProperties>();
+        ArmsStretch armsStretch = avatar.AddComponent<ArmsStretch>();
+        armsStretch.SetLeftEndEffector(body.jointWristLeft.transform);
+        armsStretch.SetRightEndEffector(body.jointWristRight.transform);
+        ((AvatarController_UnityIK)controller).SetArmStretch(armsStretch);
 
         setIKActive(true);
 
@@ -365,6 +404,16 @@ public class AvatarGo : MonoBehaviour
             Destroy(skeleton);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (UnityEditor.EditorApplication.isPlaying)
+        {
+            resetControllersStyle();
+        }
+    }
+#endif
 
     /************************* UI ****************************/
 
