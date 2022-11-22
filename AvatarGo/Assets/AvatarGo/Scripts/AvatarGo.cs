@@ -29,15 +29,16 @@ public class AvatarGo : MonoBehaviour
     // Global options
     public GameObject AvatarPrefab;
     public bool ShowMirror = true;
+    [Tooltip("Only for OpenHandHiddenControllers or OpenHandStretchArm")] public bool FingerIKObjects = false;
 
     public enum ControllersStyle
     {
         OpenHandFreeControllers, // No Finger IK... controllers are free to move
         ClosedHandFreeControllers, // Finger IK... controllers are free to move
         ClosedHandAttachedControllers, // Finger IK... controllers remain attached to the hand
-        OpenHandHiddenControllers, // No Finger IK... controllers are not displayed
+        OpenHandHiddenControllers, // Finger IK (objects)... controllers are not displayed
         CloseHandStretchArm, // Finger IK... arm is stretch to reach the controller
-        OpenHandStretchArm // No Finger IK... controllers are not displayer... arm is stretch to reach the controller
+        OpenHandStretchArm // Finger IK (objects)... controllers are not displayer... arm is stretch to reach the controller
     }
     public ControllersStyle controllersStyle = ControllersStyle.ClosedHandAttachedControllers;
 
@@ -105,7 +106,14 @@ public class AvatarGo : MonoBehaviour
             {
                 AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
                 controllerUnity.SetControllersAttached(false);
-                controllerUnity.SetUniformFingers(0.1f);
+                if (FingerIKObjects)
+                {
+                    controllerUnity.SetObjectsFingers();
+                }
+                else
+                {
+                    controllerUnity.SetUniformFingers(0.1f);
+                }
                 controllerUnity.SetClampControllers(false);
                 controllerUnity.SetArmStretch(false);
             }
@@ -133,7 +141,14 @@ public class AvatarGo : MonoBehaviour
             {
                 AvatarController_UnityIK controllerUnity = (AvatarController_UnityIK)controller;
                 controllerUnity.SetControllersAttached(false);
-                controllerUnity.SetUniformFingers(0.1f);
+                if (FingerIKObjects)
+                {
+                    controllerUnity.SetObjectsFingers();
+                }
+                else
+                {
+                    controllerUnity.SetUniformFingers(0.1f);
+                }
                 controllerUnity.SetClampControllers(false);
                 controllerUnity.SetArmStretch(true);
             }

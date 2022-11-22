@@ -29,7 +29,6 @@ public class ArmsStretch : MonoBehaviour
         {
             Vector3 dir = (RHand.position - RLowerArm.position).normalized;
             float dist = Vector3.Distance(RHand.position, RightEndEffector.position);
-            Debug.Log(dist);
             RLowerArm.position += dir * dist;
         }
         if (LeftEndEffector != null)

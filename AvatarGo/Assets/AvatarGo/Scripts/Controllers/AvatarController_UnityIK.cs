@@ -40,6 +40,7 @@ public class AvatarController_UnityIK : AvatarController
     private ControllerFingers LeftController, RightController;
     private List<Quaternion> FingersOpen = new List<Quaternion>();
     private List<Quaternion> FingersClosed = new List<Quaternion>();
+    private List<Quaternion> FingersClosedObjects = new List<Quaternion>();
     private List<Transform> Fingers = new List<Transform>();
     private List<float> FingersLengths = new List<float>();
     private List<float> FingersTs = new List<float>();
@@ -243,6 +244,13 @@ public class AvatarController_UnityIK : AvatarController
                 Fingers[i].localRotation = FingersOpen[i];
             }
         }
+        else if (FingersType == BendFingersType.Objects)
+        {
+            // Right Fingers
+            FingersObjectsGradientDescent(0, Fingers.Count / 2, false);
+            // Left Fingers
+            FingersObjectsGradientDescent(Fingers.Count / 2, Fingers.Count, true);
+        }
 
         LastLeftHandWorldRotation = Animator.GetBoneTransform(HumanBodyBones.LeftHand).rotation;
         LastRightHandWorldRotation = Animator.GetBoneTransform(HumanBodyBones.RightHand).rotation;
@@ -293,6 +301,11 @@ public class AvatarController_UnityIK : AvatarController
         FingersType = BendFingersType.Uniform;
     }
 
+    public void SetObjectsFingers()
+    {
+        FingersType = BendFingersType.Objects;
+    }
+
     public void SetOpenFingers()
     {
         FingersType = BendFingersType.Open;
@@ -320,6 +333,7 @@ public class AvatarController_UnityIK : AvatarController
         {
             FingersOpen.Add(Fingers[i].localRotation);
             FingersClosed.Add(Fingers[i].localRotation * Quaternion.Euler(maxAngle, 0, 0));
+            FingersClosedObjects.Add(FingersClosed[FingersClosed.Count - 1]);
         }
         int thumbIndex = Fingers.Count;
         Fingers.Add(Animator.GetBoneTransform(HumanBodyBones.RightThumbProximal));
@@ -329,6 +343,7 @@ public class AvatarController_UnityIK : AvatarController
         {
             FingersOpen.Add(Fingers[i].localRotation);
             FingersClosed.Add(Fingers[i].localRotation * Quaternion.Euler(0, 0, -maxAngleThumb));
+            FingersClosedObjects.Add(Fingers[i].localRotation * Quaternion.Euler(maxAngle, 0, 0));
         }
         // Left Fingers
         int leftIndex = Fingers.Count;
@@ -348,6 +363,7 @@ public class AvatarController_UnityIK : AvatarController
         {
             FingersOpen.Add(Fingers[i].localRotation);
             FingersClosed.Add(Fingers[i].localRotation * Quaternion.Euler(maxAngle, 0, 0));
+            FingersClosedObjects.Add(FingersClosed[FingersClosed.Count - 1]);
         }
         thumbIndex = Fingers.Count;
         Fingers.Add(Animator.GetBoneTransform(HumanBodyBones.LeftThumbProximal));
@@ -357,6 +373,7 @@ public class AvatarController_UnityIK : AvatarController
         {
             FingersOpen.Add(Fingers[i].localRotation);
             FingersClosed.Add(Fingers[i].localRotation * Quaternion.Euler(0, 0, maxAngleThumb));
+            FingersClosedObjects.Add(Fingers[i].localRotation * Quaternion.Euler(maxAngle, 0, 0));
         }
 
         // Lengths
@@ -434,13 +451,80 @@ public class AvatarController_UnityIK : AvatarController
         }
     }
 
+    private Collider[] OverlapColliders = new Collider[16];
+    private void FingersObjectsGradientDescent(int startIndex, int endIndex, bool isLeft)
+    {
+        const float samplingDistance = 0.02f;
+        const float learningRate = 0.005f;
+        Vector3 palm = isLeft ? AvatarProperties.GetLeftGrabHandWorldPosition() : AvatarProperties.GetRightGrabHandWorldPosition();
+        const float radius = 0.005f;
+        int nColliders = Physics.OverlapSphereNonAlloc(palm, radius, OverlapColliders);
+        if (nColliders == 0)
+        {
+            for (int f = startIndex; f < endIndex; f += 3)
+            {
+                bool isThumb = f - startIndex >= 12; 
+                for (int i = 0; i < 3; i++)
+                {
+                    Transform finger = Fingers[f + i]; 
+                    if (isThumb)
+                    {
+                        // Thumb
+                        if (FingersTs[f + i] > 0.1f)
+                        {   
+                            FingersTs[f + i] = Mathf.Clamp(FingersTs[f + i] - learningRate * 0.25f, 0.1f, 1.0f);
+                        }
+                        else
+                        {
+                            FingersTs[f + i] = Mathf.Clamp(FingersTs[f + i] + learningRate * 0.25f, -0.9f, 0.1f);
+                        }
+                    }
+                    else
+                    {
+                        FingersTs[f + i] = Mathf.Clamp(FingersTs[f + i] - learningRate * 0.25f, 0.1f, 1.0f);
+                    }
+                    finger.localRotation = Quaternion.SlerpUnclamped(FingersOpen[f + i], FingersClosed[f + i], FingersTs[f + i]);
+                }
+            }
+            return;
+        }
+        ISDF sdf = OverlapColliders[0].GetComponentInChildren<ISDF>();
+        for (int f = startIndex; f < endIndex; f += 3)
+        {
+            bool isThumb = f - startIndex >= 12;
+            // Find rotations with minimum angle
+            for (int i = 0; i < 3; i++)
+            {
+                Transform finger = Fingers[f + i];
+                finger.localRotation = Quaternion.SlerpUnclamped(FingersOpen[f + i], FingersClosed[f + i], FingersTs[f + i]);
+                float d1 = DistanceObjectTarget(f, sdf);
+                finger.localRotation = Quaternion.SlerpUnclamped(FingersOpen[f + i], FingersClosed[f + i], FingersTs[f + i] + samplingDistance);
+                float d2 = DistanceObjectTarget(f, sdf);
+                float gradient = (d2 - d1) / samplingDistance;
+                // Gradient descent
+                if (isThumb)
+                {
+                    // Thumb
+                    FingersTs[f + i] = Mathf.Clamp(FingersTs[f + i] - learningRate * gradient * 20.0f, -1.0f, 1.0f);
+                }
+                else
+                {
+                    FingersTs[f + i] = Mathf.Clamp(FingersTs[f + i] - learningRate * gradient, 0.0f, 0.75f);
+                }
+                finger.localRotation = Quaternion.SlerpUnclamped(FingersOpen[f + i], FingersClosed[f + i], FingersTs[f + i]);
+
+                // Early termination
+                if (DistanceObjectTarget(f, sdf) < 0.001f) break;
+            }
+        }
+    }
+
     private float DistanceTarget(int f, ControllerFingers controller, bool isThumb)
     {
         float negativePenalization = 2.0f; // avoid fingers inside the controller
         Transform joint1 = Fingers[f + 1];
         Transform joint2 = Fingers[f + 2];
         Vector3 joint3 = joint2.position + joint2.up * (joint2.position - joint1.position).magnitude * AvatarProperties.LastFingerJointOffset;
-        // return Vector3.Distance(controller.GetTarget(endPos), endPos);
         float d1 = controller.GetControllerSDF(joint1.position);
         float d2 = controller.GetControllerSDF(joint2.position);
         float d3 = controller.GetControllerSDF(joint3);
@@ -456,6 +540,20 @@ public class AvatarController_UnityIK : AvatarController
                (d3 < 0 ? d3 * -negativePenalization : d3) + separator3;
     }
 
+    private float DistanceObjectTarget(int f, ISDF sdf)
+    {
+        float negativePenalization = 2.0f; // avoid fingers inside the controller
+        Transform joint1 = Fingers[f + 1];
+        Transform joint2 = Fingers[f + 2];
+        Vector3 joint3 = joint2.position + joint2.up * (joint2.position - joint1.position).magnitude * AvatarProperties.LastFingerJointOffset;
+        float d1 = sdf.Distance(joint1.position);
+        float d2 = sdf.Distance(joint2.position);
+        float d3 = sdf.Distance(joint3);
+        return (d1 < 0 ? d1 * -negativePenalization : d1) +
+               (d2 < 0 ? d2 * -negativePenalization : d2) +
+               (d3 < 0 ? d3 * -negativePenalization : d3);
+    }
+
     private float DistancePlaneThumb(int f, ControllerFingers controller)
     {
         Transform joint1 = Fingers[f + 1];
@@ -468,6 +566,7 @@ public class AvatarController_UnityIK : AvatarController
     {
         Open,
         Uniform,
-        Automatic
+        Automatic,
+        Objects
     }
 }
